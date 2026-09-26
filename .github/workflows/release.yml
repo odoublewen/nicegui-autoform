@@ -1,0 +1,53 @@
+name: release
+
+on:
+  push:
+    tags: ["v*"]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - uses: astral-sh/setup-uv@v10.2.0  # no floating v10 major tag published yet
+        with:
+          enable-cache: true
+          cache-dependency-glob: uv.lock
+          cache-suffix: release
+      # A tag that disagrees with pyproject.toml would publish a version nobody
+      # can reproduce from the tag, so fail before anything is built.
+      - name: Check tag matches project version
+        run: |
+          tag="${GITHUB_REF_NAME#v}"
+          version="$(uv version --short)"
+          if [ "$tag" != "$version" ]; then
+            echo "tag $GITHUB_REF_NAME does not match project version $version" >&2
+            exit 1
+          fi
+      - run: uv build
+      - uses: actions/upload-artifact@v7
+        with:
+          name: dist
+          path: dist/
+
+  publish:
+    needs: build
+    runs-on: ubuntu-latest
+    # Trusted publishing: PyPI mints a short-lived token from this job's OIDC
+    # identity, so there is no API token to store. Configure the publisher at
+    # https://pypi.org/manage/account/publishing/ with workflow "release.yml"
+    # and environment "pypi".
+    environment:
+      name: pypi
+      url: https://pypi.org/p/nicegui-autoform
+    permissions:
+      id-token: write
+    steps:
+      - uses: actions/download-artifact@v8
+        with:
+          name: dist
+          path: dist/
+      - uses: astral-sh/setup-uv@v10.2.0  # no floating v10 major tag published yet
+      # --check-url skips files PyPI already has, so re-running the job after a
+      # partial failure is not an error.
+      - run: uv publish --trusted-publishing always --check-url https://pypi.org/simple/
