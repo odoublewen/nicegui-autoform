@@ -1,5 +1,7 @@
 # nicegui-autoform
 
+[![tests](https://github.com/odoublewen/nicegui-autoform/actions/workflows/tests.yml/badge.svg)](https://github.com/odoublewen/nicegui-autoform/actions/workflows/tests.yml)
+
 Render a [NiceGUI](https://nicegui.io) web form from a command line interface.
 
 If you already have a function wired up as a CLI, `AutoForm` reads that CLI's own
