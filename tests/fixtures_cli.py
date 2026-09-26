@@ -130,9 +130,7 @@ def build_typer() -> tuple[object, None]:
         tags: Annotated[list[str] | None, typer.Option("--tag")] = None,
     ):
         """Train a model."""
-        return record(
-            data=data, epochs=epochs, lr=lr, mode=mode, verbose=verbose, tags=tags or []
-        )
+        return record(data=data, epochs=epochs, lr=lr, mode=mode, verbose=verbose, tags=tags or [])
 
     return app, None
 

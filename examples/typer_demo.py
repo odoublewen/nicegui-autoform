@@ -1,8 +1,8 @@
 """Typer, with a rich help panel rendered as a section.
 
-    uv run python examples/typer_demo.py
+uv run python examples/typer_demo.py
 
-    Upload examples/data/measurements.csv into the Data field to submit.
+Upload examples/data/measurements.csv into the Data field to submit.
 """
 
 from __future__ import annotations
@@ -18,11 +18,11 @@ from nicegui_autoform import AutoForm
 
 app = typer.Typer()
 
+
 def summarise(data: Path) -> str:
     """Prove the upload arrived: the callback gets a real, readable file."""
     lines = data.read_text().splitlines()
     return f"{data.name} ({len(lines)} lines, {data.stat().st_size} bytes)"
-
 
 
 class Mode(enum.StrEnum):

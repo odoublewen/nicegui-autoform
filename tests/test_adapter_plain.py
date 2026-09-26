@@ -94,9 +94,7 @@ def test_cyclopts_parameter_help_is_still_read_from_annotations():
 def test_a_later_parameter_annotation_overrides_an_earlier_one():
     @dataclass
     class Documented:
-        x: Annotated[
-            int, cyclopts.Parameter(help="first"), cyclopts.Parameter(help="second")
-        ] = 1
+        x: Annotated[int, cyclopts.Parameter(help="first"), cyclopts.Parameter(help="second")] = 1
 
     assert build_spec(Documented).get("x").help == "second"
 

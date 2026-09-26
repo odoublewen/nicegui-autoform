@@ -37,4 +37,7 @@ jobs:
         with:
           enable-cache: true
           cache-dependency-glob: uv.lock
+          cache-suffix: lint
       - run: uv run --frozen ruff check .
+      - run: uv run --frozen ruff format --check .
+      - run: uv run --frozen ty check src tests examples

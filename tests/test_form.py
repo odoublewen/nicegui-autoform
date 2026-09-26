@@ -298,9 +298,7 @@ async def test_an_uploaded_file_reaches_the_callback_as_a_path(user: User) -> No
 
     await user.open("/")
     upload = user.find(kind=ui.upload).elements.pop()
-    await upload.handle_uploads(
-        [ui.upload.SmallFileUpload("data.csv", "text/csv", b"a,b\n1,2\n")]
-    )
+    await upload.handle_uploads([ui.upload.SmallFileUpload("data.csv", "text/csv", b"a,b\n1,2\n")])
     await submit(user, until=lambda: received)
 
     assert len(received) == 1
@@ -346,9 +344,7 @@ async def test_a_client_supplied_path_cannot_escape_the_temp_directory(user: Use
 
     await user.open("/")
     upload = user.find(kind=ui.upload).elements.pop()
-    await upload.handle_uploads(
-        [ui.upload.SmallFileUpload("../../evil.conf", "text/plain", b"x")]
-    )
+    await upload.handle_uploads([ui.upload.SmallFileUpload("../../evil.conf", "text/plain", b"x")])
     await submit(user, until=lambda: received)
 
     path = received[0]["data"]

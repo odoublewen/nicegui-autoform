@@ -75,9 +75,11 @@ class AutoForm:
         self._init_values(initial)
         self._build_ui()
 
-        with ui.element("div").classes(
-            "fixed inset-0 z-50 flex items-center justify-center bg-black/20"
-        ).set_visibility(False) as self.spinner:
+        with (
+            ui.element("div")
+            .classes("fixed inset-0 z-50 flex items-center justify-center bg-black/20")
+            .set_visibility(False) as self.spinner
+        ):
             ui.spinner(size="lg", color="primary")
 
     # ------------------------------------------------------------------ setup

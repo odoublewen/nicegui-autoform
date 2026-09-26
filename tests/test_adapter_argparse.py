@@ -64,7 +64,7 @@ def test_choices_are_captured():
 
 def test_filetype_renders_as_a_path():
     parser = argparse.ArgumentParser()
-    parser.add_argument("--out", type=argparse.FileType("w"))
+    parser.add_argument("--out", type=argparse.FileType("w"))  # ty: ignore[deprecated]
     assert build_spec(parser).get("out").type is Path
 
 

@@ -1,8 +1,8 @@
 """Click.
 
-    uv run python examples/click_demo.py
+uv run python examples/click_demo.py
 
-    Upload examples/data/measurements.csv into the Data field to submit.
+Upload examples/data/measurements.csv into the Data field to submit.
 """
 
 from __future__ import annotations

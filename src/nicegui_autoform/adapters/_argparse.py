@@ -111,7 +111,9 @@ def _resolve_type(action: Any, is_flag: bool) -> Any:
     converter = action.type
     if converter is None:
         return str
-    if isinstance(converter, argparse.FileType):
+    # FileType is deprecated but still widely used, so the adapter has to keep
+    # mapping it to a path.
+    if isinstance(converter, argparse.FileType):  # ty: ignore[deprecated]
         return Path
     if isinstance(converter, type):
         return converter

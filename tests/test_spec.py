@@ -72,8 +72,11 @@ def test_bind_drops_missing_so_callback_defaults_apply():
 def test_bind_rebuilds_a_nested_container():
     spec = CommandSpec(
         name="x",
-        params=(param("data", ("config", "data")), param("epochs", ("config", "epochs")),
-                param("seed")),
+        params=(
+            param("data", ("config", "data")),
+            param("epochs", ("config", "epochs")),
+            param("seed"),
+        ),
         containers=(ContainerSpec(path=("config",), factory=Config, title="Config"),),
     )
     _, kwargs = spec.bind(

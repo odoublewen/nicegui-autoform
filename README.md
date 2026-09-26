@@ -10,7 +10,7 @@ that calls the same function.
 from nicegui import ui
 from nicegui_autoform import AutoForm
 
-AutoForm(app, command="train")   # a cyclopts App, click Command, Typer app, ...
+AutoForm(app, command="train")  # a cyclopts App, click Command, Typer app, ...
 ui.run()
 ```
 
@@ -80,6 +80,7 @@ By default the form calls the command's own function. Pass `on_submit` to interc
 async def run(*args, **kwargs):
     ui.notify(f"running with {kwargs}")
 
+
 AutoForm(app, command="train", on_submit=run)
 ```
 
@@ -101,8 +102,10 @@ class Config:
     epochs: int
         number of epochs
     """
+
     data: Path
     epochs: int = 10
+
 
 @app.command
 def train(config: Config, seed: int = 0): ...
@@ -119,7 +122,7 @@ from nicegui_autoform import WidgetKind
 AutoForm(
     app,
     command="train",
-    exclude=["debug", "config.seed"],       # bare name or dotted path
+    exclude=["debug", "config.seed"],  # bare name or dotted path
     widgets={"notes": WidgetKind.TEXTAREA},
     initial={"epochs": 50},
 )
@@ -156,6 +159,7 @@ reports its name and line count, so you can see the real file reached the functi
 uv sync
 uv run pytest
 uv run ruff check
+uv run ruff format
 uv run ty check src tests examples
 ```
 
