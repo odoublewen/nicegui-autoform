@@ -1,0 +1,69 @@
+[project]
+name = "nicegui-autoform"
+version = "0.1.0"
+description = "Render a NiceGUI web form from a command line interface."
+readme = "README.md"
+license = "MIT"
+license-files = ["LICENSE"]
+requires-python = ">=3.13"
+authors = [{ name = "Owen Solberg" }]
+keywords = ["nicegui", "cli", "forms", "cyclopts", "typer", "click", "argparse"]
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Environment :: Web Environment",
+    "Intended Audience :: Developers",
+    "Programming Language :: Python :: 3.13",
+    "Programming Language :: Python :: 3.14",
+    "Topic :: Software Development :: User Interfaces",
+]
+dependencies = ["nicegui>=3.12"]
+
+# Floors below were measured by running the suite against each version, not
+# guessed. See README "Supported versions".
+[project.optional-dependencies]
+cyclopts = ["cyclopts>=4.0"]
+click = ["click>=8.1"]
+typer = ["typer>=0.13"]
+all = ["cyclopts>=4.0", "click>=8.1", "typer>=0.13"]
+
+[project.urls]
+Homepage = "https://github.com/odoublewen/nicegui-autoform"
+Issues = "https://github.com/odoublewen/nicegui-autoform/issues"
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/nicegui_autoform"]
+
+[dependency-groups]
+dev = [
+    "pytest>=8",
+    "pytest-asyncio>=0.24",
+    "ruff>=0.9",
+    "ty>=0.0.1a1",
+    "cyclopts>=4.0",
+    "click>=8.1",
+    "typer>=0.13",
+]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+asyncio_mode = "auto"
+# The tests define their own @ui.page routes, so NiceGUI has no app module to
+# import. Left at its "main.py" default the plugin fails on a missing file.
+main_file = ""
+filterwarnings = [
+    # argparse.FileType is deprecated, but it is still in the wild and the
+    # adapter has to keep mapping it to a path.
+    "ignore:FileType is deprecated:PendingDeprecationWarning",
+]
+asyncio_default_fixture_loop_scope = "function"
+
+[tool.ruff]
+line-length = 100
+src = ["src", "tests"]
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "UP", "B", "SIM"]

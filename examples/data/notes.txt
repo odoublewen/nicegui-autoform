@@ -1,0 +1,4 @@
+Run notes, plate A/B
+--------------------
+Plate A read at 20 min, plate B at 22 min.
+Replicate 2 of S-0006 flagged for a bubble; value retained.
