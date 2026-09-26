@@ -6,7 +6,7 @@ readme = "README.md"
 license = "MIT"
 license-files = ["LICENSE"]
 requires-python = ">=3.13"
-authors = [{ name = "Owen Solberg" }]
+authors = [{ name = "Owen Solberg", email = "nicegui-autoform@odoublewen.anonaddy.com" }]
 keywords = ["nicegui", "cli", "forms", "cyclopts", "typer", "click", "argparse"]
 classifiers = [
     "Development Status :: 3 - Alpha",
