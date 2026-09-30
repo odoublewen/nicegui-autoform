@@ -19,7 +19,7 @@ def click_default(param: Any) -> Any:
     ``TyperOption`` expects, and on some click versions the mismatch silently
     yields UNSET for a parameter that plainly has a default.
 
-    click 8.5 reports an unset default as ``Sentinel.UNSET`` where older
+    click 8.3 reports an unset default as ``Sentinel.UNSET`` where older
     versions report ``None``. ``None`` is a legal default, so the two stay
     distinguishable wherever click gives us enough to tell them apart.
     """

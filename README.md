@@ -42,7 +42,8 @@ uv add "nicegui-autoform[all]"
 ## Supported versions
 
 Python 3.12 through 3.15. The dependency floors below were measured by running
-the test suite against each version rather than guessed:
+the test suite against each version rather than guessed, and the `floors` CI job
+re-runs the suite against every floor on Python 3.12 so the table cannot drift:
 
 | Dependency | Floor | Why not lower |
 |---|---|---|

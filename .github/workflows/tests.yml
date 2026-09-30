@@ -29,6 +29,25 @@ jobs:
       - run: uv sync --frozen --python ${{ matrix.python-version }}
       - run: uv run --frozen --python ${{ matrix.python-version }} pytest -q
 
+  floors:
+    # The README states the dependency floors were measured rather than guessed.
+    # This keeps that honest: `lowest-direct` resolves every declared dependency
+    # down to its floor, run on the lowest supported Python.
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - uses: astral-sh/setup-uv@v10.2.0  # no floating v10 major tag published yet
+        with:
+          enable-cache: true
+          # The lockfile is deliberately unused here, so pyproject.toml is what
+          # this job's resolution actually depends on.
+          cache-dependency-glob: pyproject.toml
+          cache-suffix: floors
+      # Not --frozen: the whole point is to resolve away from the lockfile's
+      # pins. One click test self-skips at the floor, since distinguishing "no
+      # default" from "default=None" needs click 8.3; -rs keeps that visible.
+      - run: uv run --python 3.12 --resolution lowest-direct --all-extras pytest -q -rs
+
   lint:
     runs-on: ubuntu-latest
     steps:
