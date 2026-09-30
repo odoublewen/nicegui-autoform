@@ -4,6 +4,10 @@
 
 Render a [NiceGUI](https://nicegui.io) web form from a command line interface.
 
+> **Not an official NiceGUI project.** This is an independent community package
+> that builds on NiceGUI. It is not affiliated with, maintained by, or endorsed
+> by the NiceGUI project or its authors.
+
 If you already have a function wired up as a CLI, `AutoForm` reads that CLI's own
 parameter metadata -- types, defaults, help text, choices, flags -- and builds a form
 that calls the same function.
@@ -37,7 +41,7 @@ uv add "nicegui-autoform[all]"
 
 ## Supported versions
 
-Python 3.13, 3.14 and 3.15. The dependency floors below were measured by running
+Python 3.12 through 3.15. The dependency floors below were measured by running
 the test suite against each version rather than guessed:
 
 | Dependency | Floor | Why not lower |

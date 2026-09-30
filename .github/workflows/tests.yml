@@ -15,7 +15,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        python-version: ["3.13", "3.14", "3.15"]
+        python-version: ["3.12", "3.13", "3.14", "3.15"]
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v7
@@ -23,8 +23,8 @@ jobs:
         with:
           enable-cache: true
           cache-dependency-glob: uv.lock
-          # Without this the three matrix jobs race for one cache key and two
-          # of them fail to save.
+          # Without this the matrix jobs race for one cache key and all but
+          # one fail to save.
           cache-suffix: py${{ matrix.python-version }}
       - run: uv sync --frozen --python ${{ matrix.python-version }}
       - run: uv run --frozen --python ${{ matrix.python-version }} pytest -q
