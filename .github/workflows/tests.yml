@@ -43,6 +43,18 @@ jobs:
           # this job's resolution actually depends on.
           cache-dependency-glob: pyproject.toml
           cache-suffix: floors
+      # uv's per-package install lines do not survive non-TTY output, so print
+      # the resolution explicitly -- otherwise the log shows a pass without
+      # showing that it was the floors that passed.
+      - run: |
+          uv run --python 3.12 --resolution lowest-direct --all-extras python - <<'PY'
+          import sys
+          from importlib.metadata import version
+
+          print("python", ".".join(map(str, sys.version_info[:3])))
+          for pkg in ("nicegui", "cyclopts", "click", "typer", "pytest", "pytest-asyncio"):
+              print(f"{pkg:16} {version(pkg)}")
+          PY
       # Not --frozen: the whole point is to resolve away from the lockfile's
       # pins. One click test self-skips at the floor, since distinguishing "no
       # default" from "default=None" needs click 8.3; -rs keeps that visible.
