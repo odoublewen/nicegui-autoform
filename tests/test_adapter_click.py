@@ -21,11 +21,11 @@ UNSET_IS_DISTINGUISHABLE = hasattr(click.core, "UNSET")
 
 @pytest.mark.skipif(
     not UNSET_IS_DISTINGUISHABLE,
-    reason="before click 8.5 an unset default is reported as None, so the "
+    reason="before click 8.3 an unset default is reported as None, so the "
     "information needed to tell the two apart does not exist",
 )
 def test_unset_option_default_becomes_missing_not_none():
-    # click 8.5 reports an unset default as Sentinel.UNSET; None is a legal
+    # click 8.3 reports an unset default as Sentinel.UNSET; None is a legal
     # default and must stay distinguishable from "no default at all".
     @click.command()
     @click.option("--a")

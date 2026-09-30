@@ -15,7 +15,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        python-version: ["3.13", "3.14", "3.15"]
+        python-version: ["3.12", "3.13", "3.14", "3.15"]
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v7
@@ -23,11 +23,42 @@ jobs:
         with:
           enable-cache: true
           cache-dependency-glob: uv.lock
-          # Without this the three matrix jobs race for one cache key and two
-          # of them fail to save.
+          # Without this the matrix jobs race for one cache key and all but
+          # one fail to save.
           cache-suffix: py${{ matrix.python-version }}
       - run: uv sync --frozen --python ${{ matrix.python-version }}
       - run: uv run --frozen --python ${{ matrix.python-version }} pytest -q
+
+  floors:
+    # The README states the dependency floors were measured rather than guessed.
+    # This keeps that honest: `lowest-direct` resolves every declared dependency
+    # down to its floor, run on the lowest supported Python.
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - uses: astral-sh/setup-uv@v10.2.0  # no floating v10 major tag published yet
+        with:
+          enable-cache: true
+          # The lockfile is deliberately unused here, so pyproject.toml is what
+          # this job's resolution actually depends on.
+          cache-dependency-glob: pyproject.toml
+          cache-suffix: floors
+      # uv's per-package install lines do not survive non-TTY output, so print
+      # the resolution explicitly -- otherwise the log shows a pass without
+      # showing that it was the floors that passed.
+      - run: |
+          uv run --python 3.12 --resolution lowest-direct --all-extras python - <<'PY'
+          import sys
+          from importlib.metadata import version
+
+          print("python", ".".join(map(str, sys.version_info[:3])))
+          for pkg in ("nicegui", "cyclopts", "click", "typer", "pytest", "pytest-asyncio"):
+              print(f"{pkg:16} {version(pkg)}")
+          PY
+      # Not --frozen: the whole point is to resolve away from the lockfile's
+      # pins. One click test self-skips at the floor, since distinguishing "no
+      # default" from "default=None" needs click 8.3; -rs keeps that visible.
+      - run: uv run --python 3.12 --resolution lowest-direct --all-extras pytest -q -rs
 
   lint:
     runs-on: ubuntu-latest

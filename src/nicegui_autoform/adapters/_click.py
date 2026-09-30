@@ -1,7 +1,7 @@
 """Adapter for click.
 
 ``Command.params`` gives fully resolved ``Option``/``Argument`` objects. The one
-sharp edge is the default sentinel: click 8.5 reports an unset default as
+sharp edge is the default sentinel: click 8.3 reports an unset default as
 ``click.core.UNSET`` rather than ``None``, which :mod:`nicegui_autoform._compat`
 normalises.
 """

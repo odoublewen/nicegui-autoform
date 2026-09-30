@@ -5,15 +5,17 @@ description = "Render a NiceGUI web form from a command line interface."
 readme = "README.md"
 license = "MIT"
 license-files = ["LICENSE"]
-requires-python = ">=3.13"
+requires-python = ">=3.12"
 authors = [{ name = "Owen Solberg", email = "nicegui-autoform@odoublewen.anonaddy.com" }]
 keywords = ["nicegui", "cli", "forms", "cyclopts", "typer", "click", "argparse"]
 classifiers = [
     "Development Status :: 3 - Alpha",
     "Environment :: Web Environment",
     "Intended Audience :: Developers",
+    "Programming Language :: Python :: 3.12",
     "Programming Language :: Python :: 3.13",
     "Programming Language :: Python :: 3.14",
+    "Programming Language :: Python :: 3.15",
     "Topic :: Software Development :: User Interfaces",
 ]
 dependencies = ["nicegui>=3.12"]
